@@ -6,7 +6,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { ThemeContextProvider } from "./context/ThemeContext";
 import Stores from "./pages/Stores";
 import SKUs from "./pages/SKUs";
-import { Chart } from "./pages/Chart";
+import ChartPage from "./pages/Chart";
 import Planning from "./pages/Planning";
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
             <Route path="/stores" element={<Stores />} />
             <Route path="/skus" element={<SKUs />} />
             <Route path="/planning" element={<Planning />} />
-            <Route path="/chart" element={<Chart />} />
+            <Route path="/chart" element={<ChartPage />} />
         </Routes>
         </div>
         
