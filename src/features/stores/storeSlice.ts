@@ -28,7 +28,7 @@ const storeSlice = createSlice({
       localStorage.setItem('stores', JSON.stringify(updatedState));
       return updatedState;
     },
-    setStores: (state, action: PayloadAction<Store[]>) => {
+    setStores: (_state, action: PayloadAction<Store[]>) => {
       localStorage.setItem('stores', JSON.stringify(action.payload));
       return action.payload;
     },
