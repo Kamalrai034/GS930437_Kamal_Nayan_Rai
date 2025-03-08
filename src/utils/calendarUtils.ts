@@ -11,7 +11,7 @@ export interface Week {
     const currentYear = currentDate.getFullYear();
   
     for (let month = currentDate.getMonth(); month >= 0; month--) {
-      let date = new Date(currentYear, month, 1);
+      const date = new Date(currentYear, month, 1);
       let weekNumber = 1; // Reset week number for each month
   
       while (date.getMonth() === month) {

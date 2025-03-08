@@ -8,6 +8,7 @@ export interface PlanningRow {
   sku: string;
   price: number;
   cost: number;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   [key: string]: any; 
 }
 

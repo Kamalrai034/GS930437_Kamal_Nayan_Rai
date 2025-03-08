@@ -64,7 +64,8 @@ const PlanningTable = () => {
       }
     }
   };
-
+        
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const getGMPercentStyle = (params: any) => {
     if (!params.colDef.field) return {};
 
@@ -119,6 +120,7 @@ const PlanningTable = () => {
         },
         {
           headerName: "Sales Dollars",
+        /* eslint-disable @typescript-eslint/no-explicit-any */
           valueGetter: (params: any) => {
             const units = params.data[`salesUnits_${week.weekNumber}`] ?? 0;
             return `$${(units * params.data.price).toFixed(2)}`;
@@ -127,6 +129,7 @@ const PlanningTable = () => {
         },
         {
           headerName: "GM Dollars",
+        /* eslint-disable @typescript-eslint/no-explicit-any */
           valueGetter: (params: any) => {
             const units = params.data[`salesUnits_${week.weekNumber}`] ?? 0;
             return `$${(units * (params.data.price - params.data.cost)).toFixed(
@@ -138,6 +141,7 @@ const PlanningTable = () => {
         {
           headerName: "GM %",
           field: `gmPercent_${week.weekNumber}`, // Assign a field for computed values
+        /* eslint-disable @typescript-eslint/no-explicit-any */
           valueGetter: (params: any) => {
             const units = params.data[`salesUnits_${week.weekNumber}`] ?? 0;
             const salesDollars = units * params.data.price;
