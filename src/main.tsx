@@ -7,6 +7,7 @@ import { store } from './store/store.ts';
 import { Provider } from 'react-redux';
 
 
+
 registerSW();
 
 createRoot(document.getElementById('root')!).render(

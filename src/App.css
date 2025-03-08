@@ -118,3 +118,28 @@ button:hover {
   overflow-y: auto;
   background-color: var(--content-bg-color);
 }
+
+/* -- AG GRID COMMON CSS --  */
+
+/* AG-Grid Theme */
+.ag-theme-alpine {
+  --ag-background-color: var(--background-color);
+  --ag-border-color: #ccc;
+  --ag-header-background-color: var(--primary-color);
+  --ag-header-foreground-color: #fff;
+  --ag-row-hover-color: #f0f0f0;
+}
+
+.serial-cell {
+  text-align: center;
+  font-weight: bold;
+}
+
+.editable-cell {
+  background-color: var(--content-bg-color);
+}
+
+.ag-row-selected {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+

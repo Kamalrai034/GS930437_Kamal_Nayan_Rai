@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Store } from './storeTypes.ts';
+import { Store } from './storeTypes';
 
-const initialState: Store[] = [];
+const loadFromLocalStorage = () => {
+  const data = localStorage.getItem('stores');
+  return data ? JSON.parse(data) : [];
+};
+
+const initialState: Store[] = loadFromLocalStorage();
 
 const storeSlice = createSlice({
   name: 'stores',
@@ -9,12 +14,27 @@ const storeSlice = createSlice({
   reducers: {
     addStore: (state, action: PayloadAction<Store>) => {
       state.push(action.payload);
+      localStorage.setItem('stores', JSON.stringify(state));
     },
-    removeStore: (state, action: PayloadAction<number>) => {
-      return state.filter(store => store.id !== action.payload);
+    updateStore: (state, action: PayloadAction<Store>) => {
+      const index = state.findIndex((store) => store.id === action.payload.id);
+      if (index !== -1) {
+        state[index] = action.payload;
+        localStorage.setItem('stores', JSON.stringify(state));
+      }
+    },
+    deleteStore: (state, action: PayloadAction<number>) => {
+      const updatedState = state.filter((store) => store.id !== action.payload);
+      localStorage.setItem('stores', JSON.stringify(updatedState));
+      return updatedState;
+    },
+    setStores: (state, action: PayloadAction<Store[]>) => {
+      localStorage.setItem('stores', JSON.stringify(action.payload));
+      return action.payload;
     },
   },
 });
 
-export const { addStore, removeStore } = storeSlice.actions;
+export const { addStore, updateStore, deleteStore, setStores } =
+  storeSlice.actions;
 export default storeSlice.reducer;
