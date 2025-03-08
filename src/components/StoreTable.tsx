@@ -167,8 +167,8 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
         columnDefs={columnDefs}
         rowDragManaged={true}
         animateRows={true}
-        onCellValueChanged={onCellValueChanged}
-        onRowDoubleClicked={(params) => onEdit(params.data)}
+        // onCellValueChanged={onCellValueChanged}
+        // onRowDoubleClicked={(params) => onEdit(params.data)}
         onRowDragEnd={onRowDragEnd}
         rowSelection="single"
         suppressRowClickSelection={true}
