@@ -1,3 +1,11 @@
+/* Reset styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Root container */
 html, body, #root {
   margin: 0;
   padding: 0;
@@ -6,31 +14,107 @@ html, body, #root {
   height: 100%;
 }
 
+/* Central container with max width */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
 }
 
+/* App container */
 .app-container {
   display: flex;
   min-width: 1080px;
   height: 100vh;
-  background-color: #f5f5f5;
-  color: black;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
+/* Button Styling */
 button {
   padding: 10px;
-  background-color: #1976d2;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
   border: none;
   cursor: pointer;
   margin-top: 10px;
   border-radius: 5px;
+  transition: background-color 0.2s;
 }
 
 button:hover {
-  background-color: #1565c0;
+  background-color: var(--primary-hover-color);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: var(--sidebar-bg-color);
+  color: var(--sidebar-text-color);
+  padding: 20px;
+  margin-top: 4px;
+}
+
+.sidebar-item {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 5px;
+}
+
+.sidebar-item:hover {
+  background-color: var(--sidebar-hover-color);
+}
+
+.sidebar-item.active {
+  background-color: var(--sidebar-active-color);
+}
+
+/* Navbar */
+.navbar {
+  height: 60px;
+  width: 100%;
+  background-color: var(--navbar-bg-color);
+  color: var(--navbar-text-color);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar-toolbar {
+  max-width: 1280px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.navbar-logo {
+  font-size: 20px;
+  font-weight: bold;
+  flex-grow: 1;
+}
+
+.navbar button {
+  padding: 8px 16px;
+  color: var(--navbar-button-text-color);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 4px;
+}
+
+.navbar-button:hover {
+  background-color: var(--navbar-button-hover-color);
+}
+
+/* Content */
+.content {
+  flex-grow: 1;
+  padding: 40px 20px 20px;
+  overflow-y: auto;
+  background-color: var(--content-bg-color);
 }
