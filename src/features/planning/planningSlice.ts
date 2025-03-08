@@ -7,7 +7,7 @@ const planningSlice = createSlice({
   name: 'planning',
   initialState,
   reducers: {
-    setPlanningData: (state, action: PayloadAction<PlanningData[]>) => {
+    setPlanningData: (_state, action: PayloadAction<PlanningData[]>) => {
       return action.payload;
     },
   },

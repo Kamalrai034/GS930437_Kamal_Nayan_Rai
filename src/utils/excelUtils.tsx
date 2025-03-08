@@ -1,5 +1,6 @@
 import * as XLSX from 'xlsx';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const importExcelData = (file: File, callback: (data: any[]) => void) => {
   const reader = new FileReader();
   reader.onload = (event) => {

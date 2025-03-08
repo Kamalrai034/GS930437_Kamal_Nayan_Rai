@@ -53,6 +53,7 @@ const SKUTable: React.FC<SKUTableProps> = ({ onEdit }) => {
       },
       {
         headerName: 'Actions',
+        /* eslint-disable @typescript-eslint/no-explicit-any */
         cellRenderer: (params:any) => (
           <>
             <IconButton onClick={() => onEdit(params.data)} size="small">
@@ -67,7 +68,7 @@ const SKUTable: React.FC<SKUTableProps> = ({ onEdit }) => {
     ],
     [dispatch, onEdit]
   );
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
   const onRowDragEnd = (event: any) => {
       const newData = [...skus];
       const movingNode = event.node.data;

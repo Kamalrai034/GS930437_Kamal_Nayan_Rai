@@ -12,7 +12,7 @@ const skuSlice = createSlice({
   name: 'skus',
   initialState,
   reducers: {
-    setSKUs: (state, action: PayloadAction<SKU[]>) => {
+    setSKUs: (_state, action: PayloadAction<SKU[]>) => {
       const updatedState = action.payload;
       localStorage.setItem('skus', JSON.stringify(updatedState));
       return updatedState;

@@ -35,6 +35,7 @@ const SKUs = () => {
     const file = event.target.files?.[0];
     if (file) {
       importExcelData(file, (data) => {
+     /* eslint-disable @typescript-eslint/no-explicit-any */
         const newData = data.map((item: any, index: number) => ({
           id: Date.now() + index,
           name: item['SKU'] || '',

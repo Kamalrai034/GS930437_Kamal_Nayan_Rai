@@ -7,7 +7,7 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { deleteStore, updateStore, setStores } from '../features/stores/storeSlice';
+import { deleteStore, setStores } from '../features/stores/storeSlice';
 import { Store } from '../features/stores/storeTypes';
 import { useMemo, useRef, useState } from 'react';
 import { Box, Button, IconButton, Snackbar } from '@mui/material';
@@ -39,6 +39,7 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
     const file = event.target.files?.[0];
     if (file) {
       importExcelData(file, (data) => {
+        /* eslint-disable @typescript-eslint/no-explicit-any */
         const newData = data.map((item: any, index: number) => ({
           id: Date.now() + index,
           name: item['Store'] || item['Label'] || '',
@@ -97,6 +98,7 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
       {
         headerName: 'Actions',
         width: 120,
+        /* eslint-disable @typescript-eslint/no-explicit-any */
         cellRenderer: (params: any) =>
           params.data ? (
             <>
@@ -113,16 +115,7 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
     [dispatch, onEdit]
   );
 
-  const onCellValueChanged = (params: any) => {
-    if (params.data) {
-      const updatedData = {
-        ...params.data,
-        [params.colDef.field]: params.newValue,
-      };
-      dispatch(updateStore(updatedData));
-    }
-  };
-
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const onRowDragEnd = (event: any) => {
     const newData = [...stores];
     const movingNode = event.node.data;
