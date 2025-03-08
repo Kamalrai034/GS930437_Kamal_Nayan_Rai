@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "jest --coverage --watchAll"
   },
   "dependencies": {
     "@ag-grid-community/client-side-row-model": "^32.3.3",
