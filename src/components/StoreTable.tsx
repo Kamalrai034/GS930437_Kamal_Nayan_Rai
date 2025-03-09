@@ -13,6 +13,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Box, Button, IconButton, Snackbar } from '@mui/material';
 import { Delete, Edit, DragIndicator } from '@mui/icons-material';
 import { importExcelData } from '../utils/excelUtils';
+import { useThemeContext } from '../context/ThemeContext';
 
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -25,10 +26,12 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
   const stores = useSelector((state: RootState) => state.stores);
   const dispatch = useDispatch();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { mode } = useThemeContext();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [rowData, setRowData] = useState<Store[]>([]);
+
 
   useEffect(() => {
     setRowData([...stores]);
@@ -143,7 +146,7 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
         height: 500,
         width: '100%',
       }}
-      className="ag-theme-alpine"
+      className={mode === 'dark' ? 'ag-theme-alpine-dark' : 'ag-theme-alpine'}
     >
       {/* Upload Button */}
       <Box display="flex" justifyContent="space-between" marginBottom={2}>

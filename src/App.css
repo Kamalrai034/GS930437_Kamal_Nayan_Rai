@@ -143,3 +143,40 @@ button:hover {
   background-color: rgba(0, 0, 0, 0.05) !important;
 }
 
+.ag-theme-alpine-dark {
+  --ag-background-color: #1e1e1e;
+  --ag-foreground-color: #ccc;
+  --ag-border-color: #444;
+  --ag-header-background-color: #2c2c2c;
+  --ag-header-foreground-color: #fff;
+  --ag-row-hover-color: #2c2c2c;
+  --ag-row-border-color: #333;
+}
+
+.ag-theme-alpine-dark .ag-cell {
+  color: #fff !important;
+}
+
+.ag-theme-alpine-dark .ag-row {
+  background-color: #1e1e1e !important;
+}
+
+.ag-theme-alpine-dark .ag-header {
+  background-color: #2c2c2c !important;
+  color: #fff !important;
+}
+
+.ag-theme-alpine-dark ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ag-theme-alpine-dark ::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+.ag-theme-alpine-dark ::-webkit-scrollbar-track {
+  background-color: #2c2c2c;
+}
+
+

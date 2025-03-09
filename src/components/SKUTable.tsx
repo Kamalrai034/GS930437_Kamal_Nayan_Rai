@@ -12,6 +12,7 @@ import { useMemo } from 'react';
 import { Box, IconButton } from '@mui/material';
 import { Delete, Edit, DragIndicator } from '@mui/icons-material';
 import { SKU } from '../features/skus/skuTypes';
+import { useThemeContext } from '../context/ThemeContext';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -22,6 +23,8 @@ interface SKUTableProps {
 const SKUTable: React.FC<SKUTableProps> = ({ onEdit }) => {
   const skus = useSelector((state: RootState) => state.skus);
   const dispatch = useDispatch();
+
+  const { mode } = useThemeContext();
 
   const columnDefs = useMemo<ColDef[]>(
     () => [
@@ -83,7 +86,9 @@ const SKUTable: React.FC<SKUTableProps> = ({ onEdit }) => {
     };
 
   return (
-    <Box sx={{ height: 500, width: '100%' }} className="ag-theme-alpine">
+    <Box sx={{ height: 500, width: '100%' }} 
+    className={mode === 'dark' ? 'ag-theme-alpine-dark' : 'ag-theme-alpine'}
+    >
       <AgGridReact
         rowData={skus}
         columnDefs={columnDefs}

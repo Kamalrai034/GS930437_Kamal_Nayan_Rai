@@ -12,58 +12,61 @@ import { PlanningRow } from "../utils/crossJoinUtils";
 import { generateCalendarWeeks } from "../utils/calendarUtils";
 import { useMemo, useRef, useState, useEffect } from "react";
 import { Box } from "@mui/material";
+import { useThemeContext } from "../context/ThemeContext";
 
-// ✅ Register AG Grid modules
+// Register AG Grid modules
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-// ✅ Generate calendar weeks using utility
+// Generate calendar weeks using utility
 const weeks = generateCalendarWeeks();
 
 const PlanningTable = () => {
-  // ✅ Get planning data from Redux state
+
+    const { mode } = useThemeContext();
+  // Get planning data from Redux state
   const originalData: PlanningRow[] = useSelector(
     (state: RootState) => state.planning
   );
   const dispatch = useDispatch();
 
-  // ✅ Reference to AG Grid instance
+  // Reference to AG Grid instance
   const gridRef = useRef<AgGridReact>(null);
 
-  // ✅ Create a **deep copy** of row data to make it mutable
+  // Create a **deep copy** of row data to make it mutable
   const [rowData, setRowData] = useState<PlanningRow[]>([]);
 
-  // ✅ Copy data when Redux state changes (deep copy ensures no immutability issues)
+  // Copy data when Redux state changes (deep copy ensures no immutability issues)
   useEffect(() => {
     const mutableData = JSON.parse(JSON.stringify(originalData));
     setRowData(mutableData);
   }, [originalData]);
 
-  // ✅ Handle Cell Value Change
+  // Handle Cell Value Change
   const handleCellValueChanged = (params: CellValueChangedEvent) => {
     console.log("Cell changed:", params);
     if (params.data) {
       const { colDef, newValue } = params;
       const fieldName = colDef.field;
 
-      // ✅ Only proceed if the fieldName and newValue are defined
+      // Only proceed if the fieldName and newValue are defined
       if (fieldName && newValue !== undefined) {
         const updatedRow = {
           ...params.data,
-          [fieldName]: Number(newValue || 0), // ✅ Default to 0 if empty
+          [fieldName]: Number(newValue || 0), 
         };
 
         console.log("Updated Row:", updatedRow);
 
-        // ✅ Update row data state
+        // Update row data state
         const updatedData = rowData.map((row) =>
           row.id === updatedRow.id ? updatedRow : row
         );
         setRowData(updatedData);
 
-        // ✅ Update Redux store
+        // Update Redux store
         dispatch(updatePlanningData(updatedRow));
 
-        // ✅ Force refresh to update computed columns
+        // Force refresh to update computed columns
         gridRef.current?.api.refreshCells({
           rowNodes: [params.node],
           force: true,
@@ -121,6 +124,24 @@ const PlanningTable = () => {
     []
   );
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  const getCellStyle = () => {
+  
+    if (mode === 'dark') {
+      return {
+        textAlign: "center",
+        backgroundColor: "#2c2c2c", 
+        color: "#fff", 
+      };
+    } else {
+      return {
+        textAlign: "center",
+        backgroundColor: "#f0f0f0", 
+        color: "#000",
+      };
+    }
+  };
+
   // Column Definition with Value Getters
   const columnDefs = useMemo<ColDef[]>(() => [
     // Basic columns for store and SKU
@@ -145,7 +166,7 @@ const PlanningTable = () => {
               const units = params.data[`salesUnits_${monthKey}_${weekNumber}`] ?? 0;
               return `$${(units * params.data.price).toFixed(2)}`;
             },
-            cellStyle: { textAlign: "center", backgroundColor: "#f0f0f0" },
+            cellStyle: getCellStyle,
           },
           {
             headerName: "GM Dollars",
@@ -154,7 +175,7 @@ const PlanningTable = () => {
               const units = params.data[`salesUnits_${monthKey}_${weekNumber}`] ?? 0;
               return `$${(units * (params.data.price - params.data.cost)).toFixed(2)}`;
             },
-            cellStyle: { textAlign: "center", backgroundColor: "#f0f0f0" },
+            cellStyle: getCellStyle,
           },
           {
             headerName: "GM %",
@@ -180,7 +201,9 @@ const PlanningTable = () => {
   console.log(rowData, "rowData");
 
   return (
-    <Box sx={{ height: 600, width: "100%" }} className="ag-theme-alpine">
+    <Box sx={{ height: 600, width: "100%" }} 
+    className={mode === 'dark' ? 'ag-theme-alpine-dark' : 'ag-theme-alpine'}
+    >
       <AgGridReact
         ref={gridRef}
         rowData={rowData}
