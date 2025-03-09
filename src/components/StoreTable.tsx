@@ -9,13 +9,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { deleteStore, setStores } from '../features/stores/storeSlice';
 import { Store } from '../features/stores/storeTypes';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Box, Button, IconButton, Snackbar } from '@mui/material';
 import { Delete, Edit, DragIndicator } from '@mui/icons-material';
 import { importExcelData } from '../utils/excelUtils';
 
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -30,6 +28,12 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [rowData, setRowData] = useState<Store[]>([]);
+
+  useEffect(() => {
+    setRowData([...stores]);
+  }, [stores]);
+
 
   const handleDelete = (id: number) => {
     dispatch(deleteStore(id));
@@ -59,7 +63,10 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
         headerName: '',
         width: 50,
         rowDrag: true,
-        cellRenderer: () => <DragIndicator />,
+        cellRenderer: () => <DragIndicator 
+        sx={{ cursor: 'grab' }}
+        className="drag-handle"
+        />,
         sortable: false,
         filter: false,
       },
@@ -74,7 +81,7 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
       {
         headerName: 'Store',
         field: 'name',
-        editable: true,
+        // editable: true,
         sortable: true,
         filter: true,
         cellClass: 'editable-cell',
@@ -82,7 +89,7 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
       {
         headerName: 'City',
         field: 'city',
-        editable: true,
+        // editable: true,
         sortable: true,
         filter: true,
         cellClass: 'editable-cell',
@@ -90,7 +97,7 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
       {
         headerName: 'State',
         field: 'state',
-        editable: true,
+        // editable: true,
         sortable: true,
         filter: true,
         cellClass: 'editable-cell',
@@ -117,7 +124,7 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const onRowDragEnd = (event: any) => {
-    const newData = [...stores];
+    const newData = [...rowData];
     const movingNode = event.node.data;
 
     const fromIndex = newData.findIndex((row) => row.id === movingNode.id);
@@ -126,6 +133,7 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
     const toIndex = event.overIndex;
     newData.splice(toIndex, 0, movingNode);
 
+    setRowData(newData);
     dispatch(setStores(newData));
   };
 
@@ -156,18 +164,17 @@ const StoreTable: React.FC<StoreTableProps> = ({ onEdit }) => {
 
       {/* AG-Grid Table */}
       <AgGridReact
-        rowData={stores}
+        rowData={rowData}
         columnDefs={columnDefs}
         rowDragManaged={true}
         animateRows={true}
         // onCellValueChanged={onCellValueChanged}
         // onRowDoubleClicked={(params) => onEdit(params.data)}
         onRowDragEnd={onRowDragEnd}
-        rowSelection="single"
-        suppressRowClickSelection={true}
-        pagination={true}
-        paginationPageSize={10}
-        paginationPageSizeSelector={[10, 20, 50]}
+        // rowSelection="multiple"
+        // suppressRowClickSelection={true}
+        // suppressMoveWhenRowDragging={false} 
+        
       />
 
       {/* Snackbar for Feedback */}

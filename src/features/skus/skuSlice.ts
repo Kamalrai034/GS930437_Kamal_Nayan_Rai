@@ -1,12 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SKU } from './skuTypes';
+import { getUserData, saveUserData } from '../../utils/localStorageUtils';
 
-const loadFromLocalStorage = () => {
-    const data = localStorage.getItem('skus');
-    return data ? JSON.parse(data) : [];
-  };
-
-const initialState: SKU[] = loadFromLocalStorage();
+const initialState: SKU[] = getUserData<SKU[]>('skus') || [];
 
 const skuSlice = createSlice({
   name: 'skus',
@@ -14,23 +10,26 @@ const skuSlice = createSlice({
   reducers: {
     setSKUs: (_state, action: PayloadAction<SKU[]>) => {
       const updatedState = action.payload;
-      localStorage.setItem('skus', JSON.stringify(updatedState));
+      saveUserData('skus', updatedState);
       return updatedState;
     },
+
     addSKU: (state, action: PayloadAction<SKU>) => {
       state.push(action.payload);
-      localStorage.setItem('skus', JSON.stringify(state));
+      saveUserData('skus', state);
     },
+
     updateSKU: (state, action: PayloadAction<SKU>) => {
       const index = state.findIndex((sku) => sku.id === action.payload.id);
       if (index !== -1) {
         state[index] = action.payload;
-        localStorage.setItem('skus', JSON.stringify(state));
+        saveUserData('skus', state);
       }
     },
+
     deleteSKU: (state, action: PayloadAction<number>) => {
       const updatedState = state.filter((sku) => sku.id !== action.payload);
-      localStorage.setItem('skus', JSON.stringify(updatedState));
+      saveUserData('skus', updatedState);
       return updatedState;
     },
   },
