@@ -1,54 +1,52 @@
-# React + TypeScript + Vite
+This is a Progressive Web Application (PWA) built using Vite with the following tech stack:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React (using Vite)
+Redux (for state management)
+AG-Grid Community (for data grid functionality)
+Material-UI (MUI) (for UI components)
+TypeScript
+Service Workers (for offline support)
+Recharts (for data visualization)
 
-Currently, two official plugins are available:
+-- FOLDER STRUCTURE --
+src/
+├── assets/                   # Static files (SVGs, images, etc.)
+├── components/               # Reusable React components (e.g., Navbar, Sidebar)
+├── context/                  # React context for themes and other global state
+├── features/                 # Redux features (e.g., stores, skus, planning)
+├── hooks/                    # Custom hooks
+├── pages/                    # Pages (e.g., Stores, SKUs, Planning, Chart)
+├── routes/                   # Protected Routes and Route Handling
+├── store/                    # Redux store configuration
+├── styles/                   # Global styles
+├── types/                    # TypeScript types
+├── utils/                    # Utility functions (e.g., Excel import, date formatting)
+└── service-worker.js         # Service Worker for offline caching
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+-- SETUP --
 
-## Expanding the ESLint configuration
+git clone https://github.com/your-repo-name.git
+cd your-repo-name
+npm install
+npm run dev
+-- USAGE GUIDE --
+1. Authentication 
+Navigate to /login
+If no account → Register first.
+Login stores userId in cookies.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. Stores Page
+View, edit, delete, and reorder rows.
+Import data from Excel.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+3. SKUs Page
+Similar to Stores Page.
+Import SKUs from Excel.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+4. Planning Page
+Edit sales units directly in AG-Grid.
+Computed fields auto-update.
+Drag-and-drop row reordering.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+5. Charts Page
+Select store -->> View GM Dollars and GM % as dual-axis chart.
