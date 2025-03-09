@@ -10,12 +10,15 @@ import PublicLayout from "./layouts/PublicLayout";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProtectedLayout from "./layouts/ProtectedLayout";
+import AuthRedirect from "./layouts/AuthRedirect";
 
 function App() {
+  const isAuthenticated = !!localStorage.getItem('userId');
   return (
     <ThemeContextProvider>
       <Router>
             <Routes>
+            <Route path="/" element={<AuthRedirect isAuthenticated={isAuthenticated} />} />
               <Route element={<PublicLayout />}>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
