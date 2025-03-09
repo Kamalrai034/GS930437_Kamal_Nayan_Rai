@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useThemeContext } from "../context/ThemeContext";
 import Cookies from "js-cookie";
 // Import SVG as Component
-import logo from "../assets/logo.svg";
+import  Logo  from '../assets/logo.svg?react';
+
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -32,13 +33,11 @@ const handleAuth = () => {
     >
       <Toolbar className="navbar-toolbar">
         <div style={{flex:1}}>
-        <img
-          src={logo}
-          alt="Logo"
+        <Logo 
           style={{
             height: 75,
             width: 160,
-            marginRight: 10,
+            marginRight: 16,
           }}
         />
         </div>
