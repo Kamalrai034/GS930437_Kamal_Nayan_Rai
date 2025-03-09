@@ -1,7 +1,5 @@
 
 import "./App.css";
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { ThemeContextProvider } from "./context/ThemeContext";
 import Stores from "./pages/Stores";
@@ -17,10 +15,6 @@ function App() {
   return (
     <ThemeContextProvider>
       <Router>
-        {/* <div className="app-container">
-          <Navbar />
-          <Sidebar />
-          <div className="content"> */}
             <Routes>
               <Route element={<PublicLayout />}>
                 <Route path="/login" element={<LoginPage />} />
