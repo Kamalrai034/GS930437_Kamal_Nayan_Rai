@@ -1,4 +1,4 @@
-import  { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { generateCalendarWeeks } from "../utils/calendarUtils";
@@ -22,12 +22,12 @@ import {
   ComposedChart,
 } from "recharts";
 
+// Generate calendar weeks based on the full year (Jan–Dec)
 const weeks = generateCalendarWeeks();
 
 const ChartPage = () => {
   const data = useSelector((state: RootState) => state.planning);
 
-  // State to store selected store
   const [selectedStore, setSelectedStore] = useState<string>("");
 
   // Get unique store names for the dropdown
@@ -36,6 +36,7 @@ const ChartPage = () => {
     [data]
   );
 
+  // Set default store to the first available store
   useEffect(() => {
     if (storeOptions.length > 0) {
       setSelectedStore(storeOptions[0]);
@@ -51,12 +52,12 @@ const ChartPage = () => {
     if (!selectedStore) return [];
 
     return weeks.map((week) => {
-      const salesUnitsKey = `salesUnits_${week.weekNumber}`;
+      const salesUnitsKey = `salesUnits_${week.month}_${week.weekNumber}`;
 
-      //Aggregate GM Dollars and Sales Dollars across SKUs for the selected store
       let totalSalesDollars = 0;
       let totalGMDollars = 0;
 
+      // Aggregate GM Dollars and Sales Dollars across SKUs for the selected store
       data.forEach((row) => {
         if (row.store === selectedStore) {
           const units = row[salesUnitsKey] ?? 0;
@@ -65,13 +66,14 @@ const ChartPage = () => {
         }
       });
 
+      // Calculate GM % based on aggregated values
       const gmPercent =
         totalSalesDollars > 0
           ? parseFloat(((totalGMDollars / totalSalesDollars) * 100).toFixed(2))
           : 0;
 
       return {
-        week: `W${week.weekNumber}`,
+        week: `${week.month.slice(0,3)} - W${week.weekNumber}`,
         salesDollars: totalSalesDollars,
         gmDollars: totalGMDollars,
         gmPercent,
@@ -92,7 +94,7 @@ const ChartPage = () => {
 
   return (
     <Box sx={{ padding: 2, backgroundColor: "#1e1e1e", color: "#fff" }}>
-      {/* Store Selector */}
+      {/* ✅ Store Selector */}
       <FormControl sx={{ minWidth: 300, marginBottom: 2 }}>
         <InputLabel sx={{ color: "#fff" }}>Select Store</InputLabel>
         <Select
@@ -113,13 +115,18 @@ const ChartPage = () => {
       </FormControl>
 
       {/* ✅ Dual-Axis Chart */}
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" height={440}>
         <ComposedChart
           data={chartData}
-          margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
+          margin={{ top: 5, right: 30, left: 50, bottom: 80 }}
         >
-          <CartesianGrid stroke="#444" strokeDasharray="3 3" />
-          <XAxis dataKey="week" stroke="#ccc" />
+          {/* Grid for better readability */}
+          <CartesianGrid stroke="#444" strokeDasharray="3 3"  />
+          
+          {/* X-Axis shows both Month and Week Number */}
+          <XAxis dataKey="week" stroke="#ccc" angle={-90} textAnchor="end" />
+
+          {/*Left Y-Axis for GM Dollars */}
           <YAxis
             yAxisId="left"
             orientation="left"
@@ -128,16 +135,19 @@ const ChartPage = () => {
               `$${new Intl.NumberFormat().format(value)}`
             }
           />
+
+          {/* Right Y-Axis for GM % */}
           <YAxis
             yAxisId="right"
             orientation="right"
             stroke="#ccc"
             tickFormatter={(value) => `${value}%`}
-            domain={[0, maxGMPercent * 1.1]} // Dynamic scaling with padding
+            domain={[0, maxGMPercent * 1.1]} //Scale based on max GM %
           />
+
           <Tooltip
             formatter={(value, name) => {
-              if (typeof value === 'number') {
+              if (typeof value === "number") {
                 return name === "GM %"
                   ? `${(value as number).toFixed(2)}%`
                   : `$${new Intl.NumberFormat().format(value as number)}`;
@@ -151,9 +161,15 @@ const ChartPage = () => {
               border: "none",
             }}
           />
-          <Legend />
+          <Legend 
+          verticalAlign="top"
+          align="center"
+          wrapperStyle={{
+            top: 0,
+            paddingBottom: "10px",
+          }}
+          />
 
-          {/* ✅ GM Dollars as Bar */}
           <Bar
             yAxisId="left"
             dataKey="gmDollars"
@@ -161,7 +177,7 @@ const ChartPage = () => {
             fill="#4b8ef1"
             barSize={20}
           />
-          {/* ✅ GM % as Line */}
+
           <Line
             yAxisId="right"
             dataKey="gmPercent"

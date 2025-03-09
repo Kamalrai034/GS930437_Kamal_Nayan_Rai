@@ -29,7 +29,7 @@ export const generatePlanningData = (stores: Store[], skus: SKU[]): PlanningRow[
 
       // Create dynamic fields for each week (set default value = 0)
       weeks.forEach((week) => {
-        row[`salesUnits_${week.weekNumber}`] = 0;
+        row[`salesUnits_${week.month}_${week.weekNumber}`] = 0;
       });
 
       rows.push(row);
